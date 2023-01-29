@@ -9,7 +9,7 @@ class Song {
       required this.description,
       required this.url,
       required this.coverUrl});
-  List<Song> songs = [
+  static List<Song> song = [
     Song(
         title: 'As It Was',
         description: 'Harry Styles',

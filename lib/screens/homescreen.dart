@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:music/models/playlist_model.dart';
 
 import '../models/song_model.dart';
 import '../widgets/widget.dart';
@@ -11,7 +12,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Song> songs=[];
+  List<Song> song = Song.song;
+  List<Playlist> playlists = Playlist.playlists;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,42 +32,21 @@ class _HomeScreenState extends State<HomeScreen> {
         body: SingleChildScrollView(
           child: Column(children: [
             const _DiscoverMusic(),
+            _TrendingMusic(song: song),
             Padding(
-              padding: const EdgeInsets.only(
-                left: 20.0,
-                right: 20.0,
-                bottom: 20.0,
-              ),
+              padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.only(
-                      right: 20.0,
-                    ),
-                    child: SectionHeader(title: 'Trending Music'),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.27,
-                    child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: songs.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            width: MediaQuery.of(context).size.width*0.45,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage(
-                                  songs[index].coverUrl,
-                                ),
-                                fit: BoxFit.cover
-                              ),
-                            ),
-                          );
-                        }),
-                  ),
+                  const SectionHeader(title: 'Playlists'),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.only(top: 20),
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: playlists.length,
+                    itemBuilder: (context, index) {
+                      return PlayListCard(playlists: playlists[index]);
+                    },
+                  )
                 ],
               ),
             )
@@ -77,10 +58,52 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class _DiscoverMusic extends StatelessWidget {
-  const _DiscoverMusic({
+
+
+class _TrendingMusic extends StatelessWidget {
+  const _TrendingMusic({
     super.key,
+    required this.song,
   });
+
+  final List<Song> song;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        left: 20.0,
+        right: 20.0,
+        bottom: 20.0,
+      ),
+      child: Column(
+        children: [
+          const Padding(
+            padding: EdgeInsets.only(
+              right: 20.0,
+            ),
+            child: SectionHeader(title: 'Trending Music'),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.27,
+            child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: song.length,
+                itemBuilder: (context, index) {
+                  return SongCard(songs: song[index]);
+                }),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _DiscoverMusic extends StatelessWidget {
+  const _DiscoverMusic();
 
   @override
   Widget build(BuildContext context) {
@@ -128,9 +151,7 @@ class _DiscoverMusic extends StatelessWidget {
 }
 
 class _CustomNavigationBar extends StatelessWidget {
-  const _CustomNavigationBar({
-    super.key,
-  });
+  const _CustomNavigationBar();
 
   @override
   Widget build(BuildContext context) {
@@ -163,9 +184,7 @@ class _CustomNavigationBar extends StatelessWidget {
 }
 
 class _CustomAppBar extends StatelessWidget with PreferredSizeWidget {
-  const _CustomAppBar({
-    super.key,
-  });
+  const _CustomAppBar();
 
   @override
   Widget build(BuildContext context) {

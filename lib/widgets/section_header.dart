@@ -14,14 +14,14 @@ class SectionHeader extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-title,
+          title,
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),
         ),
         Text(
-     action,
+          action,
           style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                 color: Colors.white,
               ),
